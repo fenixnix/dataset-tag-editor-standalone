@@ -9,6 +9,11 @@ parser.add_argument(
     default=False,
 )
 parser.add_argument(
+    "--shadow-gradio-output",
+    action="store_true",
+    default=False,
+)
+parser.add_argument(
     "--localization",
     type=str,
     default=None
