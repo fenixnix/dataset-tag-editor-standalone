@@ -137,7 +137,7 @@ def commit_hash():
 
 
 def versions_html():
-    import torch
+    # import torch
 
     python_version = ".".join([str(x) for x in sys.version_info[0:3]])
     commit = commit_hash()
@@ -145,8 +145,6 @@ def versions_html():
 
     return f"""
 python: <span title="{sys.version}">{python_version}</span>
- • 
-torch: {getattr(torch, '__long_version__',torch.__version__)}
  • 
 gradio: {gr.__version__}
  • 

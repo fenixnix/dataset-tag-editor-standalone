@@ -87,8 +87,5 @@ def prepare_environment():
 
 
 if __name__ == "__main__":
-    prepare_environment()
-
     import interface
-
     interface.main()
