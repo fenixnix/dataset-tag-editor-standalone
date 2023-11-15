@@ -24,6 +24,11 @@ parser.add_argument(
     default=None,
 )
 parser.add_argument(
+    "--root-path",
+    type=str,
+    default=""
+)
+parser.add_argument(
     "--gradio-debug",
     action="store_true",
     help="Launch gradio with debug option",

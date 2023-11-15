@@ -188,7 +188,6 @@ def main():
     global interface
 
     def sigint_handler(sig, frame):
-        print(f"Interrupted with signal {sig} in {frame}")
         os._exit(0)
 
     signal.signal(signal.SIGINT, sigint_handler)
@@ -219,6 +218,8 @@ def main():
             ssl_certfile=cmd_args.opts.tls_cert,
             debug=cmd_args.opts.gradio_debug,
             prevent_thread_lock=True,
+            quiet=True,
+            root_path=cmd_args.opts.root_path
         )
 
         # Disable a very open middleware as Stable Diffusion web UI does
