@@ -85,7 +85,17 @@ def prepare_environment():
 
     logger.write(f"PyTorch device: {devices.device}")
 
+def shadow_gradio_print():
+    import traceback
+    original_print = __builtins__["print"]
+    def _print(*args, **kwargs):
+        stack = "".join(traceback.format_stack())
+        if "gradio" in stack:
+            return
+        original_print(*args, **kwargs)
+    __builtins__["print"] = _print
 
 if __name__ == "__main__":
+    shadow_gradio_print()
     import interface
     interface.main()
