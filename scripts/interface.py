@@ -82,10 +82,17 @@ def webpath(fn: Path):
     path = str(fn.absolute()).replace("\\", "/")
     return f"file={path}?{os.path.getmtime(fn)}"
 
+def read_localization():
+    with open(utilities.base_dir_path() / "javascript" / "zh-Hans.json", "r", encoding="utf-8") as f:
+        return f.read()
 
 def javascript_html():
-    js_path = utilities.base_dir_path() / "javascript"
     head = ""
+    if cmd_args.opts.localization == "zh-Hans":
+        head += f'<script type="text/javascript">var localization = {read_localization()}</script>\n'
+
+    js_path = utilities.base_dir_path() / "javascript"
+
     for p in sorted(js_path.glob("*.js")):
         if not p.is_file():
             continue

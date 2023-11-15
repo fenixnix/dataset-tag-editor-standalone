@@ -96,6 +96,6 @@ def shadow_gradio_print():
     __builtins__.print = _print
 
 if __name__ == "__main__":
-    shadow_gradio_print()
+    # shadow_gradio_print()
     import interface
     interface.main()
