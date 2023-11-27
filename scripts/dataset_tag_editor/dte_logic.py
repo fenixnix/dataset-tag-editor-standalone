@@ -685,7 +685,7 @@ class DatasetTagEditor(Singleton):
                     continue
                 try:
                     img = Image.open(img_path)
-                    if (max_res > 0):
+                    if max_res >= 0:
                         img_res = int(max_res), int(max_res)
                         img.thumbnail(img_res)
                 except:

@@ -9,7 +9,7 @@ class Settings(NamedTuple):
     temp_directory: str = ''
     cleanup_tmpdir: bool = True
     image_columns: int = 6
-    max_resolution: int = 0
+    max_resolution: int = 512
     filename_word_regex: str = ""
     tagger_use_spaces: bool = True
     interrogator_use_cpu: bool = False
