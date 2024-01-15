@@ -17,6 +17,7 @@ import gradio.utils
 import tab_main, tab_settings, cmd_args, settings, utilities, logger, launch, paths
 from shared_state import state
 
+import gr_hijack
 
 # ================================================================
 # brought from AUTOMATIC1111/stable-diffusion-webui and modified

@@ -3,7 +3,7 @@ import re
 from typing import Optional
 from enum import Enum
 from PIL import Image
-
+from tqdm import tqdm
 from singleton import Singleton
 
 from . import (
@@ -15,7 +15,8 @@ from . import (
 )
 from tokenizer import clip_tokenizer
 
-import settings, logger
+import settings
+import logger
 
 BLIP2_CAPTIONING_NAMES = [
     "blip2-opt-2.7b",
@@ -214,7 +215,10 @@ class DatasetTagEditor(Singleton):
 
         img_paths = sorted(filtered_set.datas.keys())
 
-        return [self.images.get(path) for path in img_paths]
+        if settings.current.max_resolution > 0:
+            return [self.images.get(path) for path in img_paths]
+        else:
+            return img_paths
 
     def get_filtered_imgindices(self, filters: list[filters.Filter] = []):
         filtered_set = self.dataset.copy()
@@ -304,8 +308,8 @@ class DatasetTagEditor(Singleton):
         prepend: bool = False,
     ):
         img_paths = self.get_filtered_imgpaths(filters=filters)
-        tags_to_append = replace_tags[len(search_tags) :]
-        tags_to_remove = search_tags[len(replace_tags) :]
+        tags_to_append = replace_tags[len(search_tags):]
+        tags_to_remove = search_tags[len(replace_tags):]
         tags_to_replace = {}
         for i in range(min(len(search_tags), len(replace_tags))):
             if replace_tags[i] is None or replace_tags[i] == "":
@@ -334,7 +338,7 @@ class DatasetTagEditor(Singleton):
     def get_replaced_tagset(
         self, tags: set[str], search_tags: list[str], replace_tags: list[str]
     ):
-        tags_to_remove = search_tags[len(replace_tags) :]
+        tags_to_remove = search_tags[len(replace_tags):]
         tags_to_replace = {}
         for i in range(min(len(search_tags), len(replace_tags))):
             if replace_tags[i] is None or replace_tags[i] == "":
@@ -652,8 +656,8 @@ class DatasetTagEditor(Singleton):
         threshold_booru: float,
         threshold_waifu: float,
         use_temp_dir: bool,
-        kohya_json_path: Optional[str], 
-        max_res:float
+        kohya_json_path: Optional[str],
+        max_res: float
     ):
         self.clear()
 
@@ -680,14 +684,17 @@ class DatasetTagEditor(Singleton):
         def load_images(filepaths: list[Path]):
             imgpaths = []
             images = {}
-            for img_path in filepaths:
+            logger.write("Loading images...")
+            if max_res:
+                logger.write(f"Resizing images to {max_res}x{max_res}, this will take a while")
+            for img_path in tqdm(filepaths):
                 if img_path.suffix == caption_ext:
                     continue
                 try:
                     img = Image.open(img_path)
-                    if max_res >= 0:
+                    if max_res > 0:
                         img_res = int(max_res), int(max_res)
-                        img.thumbnail(img_res)
+                        img.thumbnail(img_res, Image.NEAREST)
                 except:
                     continue
                 else:
@@ -750,9 +757,10 @@ class DatasetTagEditor(Singleton):
                 imgpaths, self.images = load_images(filepaths)
                 taglists = load_captions(imgpaths)
 
-            for img_path, tags in zip(imgpaths, taglists):
+            logger.write(f"Handling image captions...")
+
+            for img_path, tags in tqdm(zip(imgpaths, taglists)):
                 interrogate_tags = []
-                img = self.images.get(img_path)
                 if interrogate_method != self.InterrogateMethod.NONE and (
                     (interrogate_method != self.InterrogateMethod.PREFILL)
                     or (
@@ -760,6 +768,7 @@ class DatasetTagEditor(Singleton):
                         and not tags
                     )
                 ):
+                    img = self.images.get(img_path)
                     if img is None:
                         logger.error(
                             f"Failed to load image {img_path}. Interrogating is aborted."
@@ -779,7 +788,8 @@ class DatasetTagEditor(Singleton):
                 elif interrogate_method == self.InterrogateMethod.PREPEND:
                     tags = interrogate_tags + tags
                 else:
-                    tags = tags + interrogate_tags
+                    if interrogate_tags:
+                        tags = tags + interrogate_tags
 
                 self.set_tags_by_image_path(img_path, tags)
 
