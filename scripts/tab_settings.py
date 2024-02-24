@@ -55,7 +55,7 @@ def on_ui_tabs():
 
     btn_reload.click(
         fn=request_restart,
-        _js="restart_reload",
+        js="restart_reload",
         inputs=[],
         outputs=[],
     )

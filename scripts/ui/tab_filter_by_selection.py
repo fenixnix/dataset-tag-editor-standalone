@@ -40,8 +40,8 @@ class FilterBySelectionUI(UIBase):
                 )
 
             self.gl_filter_images = gr.Gallery(
-                label="Filter Images", elem_id="filter_gallery"
-            ).style(grid=image_columns)
+                label="Filter Images", elem_id="filter_gallery",columns=image_columns
+            )
             self.txt_selection = gr.HTML(value=self.get_current_txt_selection())
 
             with gr.Row():
@@ -77,7 +77,7 @@ class FilterBySelectionUI(UIBase):
 
         self.btn_hidden_set_selection_index.click(
             fn=selection_index_changed,
-            _js="(x) => gl_filter_images_selected_index()",
+            js="(x) => gl_filter_images_selected_index()",
             inputs=[self.nb_hidden_selection_image_index],
             outputs=[self.txt_selection, self.nb_hidden_selection_image_index],
         )
@@ -186,7 +186,7 @@ class FilterBySelectionUI(UIBase):
             fn=apply_image_selection_filter, outputs=o_update_filter_and_gallery
         )
         self.btn_apply_image_selection_filter.click(
-            fn=None, _js="() => gl_dataset_images_close()"
+            fn=None, js="() => gl_dataset_images_close()"
         )
 
 

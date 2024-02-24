@@ -2,7 +2,7 @@
 ################################################################
 #Create and activate python venv
 
-source venv/bin/activate
+#source venv/bin/activate
 
 
 

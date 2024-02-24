@@ -1,0 +1,1 @@
+python scripts/launch.py --port 7888

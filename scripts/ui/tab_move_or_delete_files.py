@@ -128,7 +128,7 @@ class MoveOrDeleteFilesUI(UIBase):
         )
         self.btn_move_or_delete_move_files.click(**update_args)
         self.btn_move_or_delete_move_files.click(
-            fn=None, _js="() => gl_dataset_images_close()"
+            fn=None, js="() => gl_dataset_images_close()"
         )
 
         def delete_files(target_data: str, target_file: list[str], caption_ext: str):
@@ -161,5 +161,5 @@ class MoveOrDeleteFilesUI(UIBase):
         )
         self.btn_move_or_delete_delete_files.click(**update_args)
         self.btn_move_or_delete_delete_files.click(
-            fn=None, _js="() => gl_dataset_images_close()"
+            fn=None, js="() => gl_dataset_images_close()"
         )

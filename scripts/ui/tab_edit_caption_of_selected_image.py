@@ -165,7 +165,7 @@ class EditCaptionOfSelectedImageUI(UIBase):
 
         self.nb_hidden_image_index_save_or_not.change(
             fn=lambda a: None,
-            _js="(a) => ask_save_change_or_not(a)",
+            js="(a) => ask_save_change_or_not(a)",
             inputs=self.nb_hidden_image_index_save_or_not,
         )
         dataset_gallery.nb_hidden_image_index.change(
@@ -298,7 +298,7 @@ class EditCaptionOfSelectedImageUI(UIBase):
                 self.rb_sort_order,
             ],
             outputs=o_update_filter_and_gallery,
-            _js="(a,b,c,d) => {gl_dataset_images_close(); return [a, b, c, d]}",
+            js="(a,b,c,d) => {gl_dataset_images_close(); return [a, b, c, d]}",
         )
 
         def apply_chages_all(tags_text: str, sort: bool, sort_by: str, sort_order: str):
@@ -326,7 +326,7 @@ class EditCaptionOfSelectedImageUI(UIBase):
                 self.rb_sort_order,
             ],
             outputs=o_update_filter_and_gallery,
-            _js="(a,b,c,d) => {gl_dataset_images_close(); return [a, b, c, d]}",
+            js="(a,b,c,d) => {gl_dataset_images_close(); return [a, b, c, d]}",
         )
 
         self.cb_sort_caption_on_save.change(

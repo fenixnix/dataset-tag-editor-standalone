@@ -30,8 +30,8 @@ class DatasetGalleryUI(UIBase):
                 value=None, label="hidden_idx_prev"
             )
         self.gl_dataset_images = gr.Gallery(
-            label="Dataset Images", elem_id="dataset_gallery"
-        ).style(grid=image_columns)
+            label="Dataset Images", elem_id="dataset_gallery",columns=image_columns
+        )
 
     def set_callbacks(
         self,
@@ -65,7 +65,7 @@ class DatasetGalleryUI(UIBase):
 
         self.btn_hidden_set_index.click(
             fn=set_index_clicked,
-            _js="(x, y) => [gl_dataset_images_selected_index(), x]",
+            js="(x, y) => [gl_dataset_images_selected_index(), x]",
             inputs=[self.nb_hidden_image_index, self.nb_hidden_image_index_prev],
             outputs=[self.nb_hidden_image_index, self.nb_hidden_image_index_prev],
         )
@@ -80,7 +80,7 @@ class DatasetGalleryUI(UIBase):
 
         self.nb_hidden_dataset_filter_apply.change(
             fn=lambda a, b: [a, b],
-            _js="(x, y) => [y>=0 ? gl_dataset_images_filter(x) : x, -1]",
+            js="(x, y) => [y>=0 ? gl_dataset_images_filter(x) : x, -1]",
             inputs=[
                 self.cbg_hidden_dataset_filter,
                 self.nb_hidden_dataset_filter_apply,

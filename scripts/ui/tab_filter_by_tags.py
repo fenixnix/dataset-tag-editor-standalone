@@ -94,14 +94,14 @@ class FilterByTagsUI(UIBase):
             fn=lambda: common_callback() + [", ".join(self.tag_filter_ui.filter.tags)],
             inputs=None,
             outputs=common_callback_output + [batch_edit_captions.tb_sr_selected_tags],
-            _js="(...args) => {gl_dataset_images_close(); return args}",
+            js="(...args) => {gl_dataset_images_close(); return args}",
         )
 
         self.tag_filter_ui_neg.on_filter_update(
             fn=common_callback,
             inputs=None,
             outputs=common_callback_output,
-            _js="(...args) => {gl_dataset_images_close(); return args}",
+            js="(...args) => {gl_dataset_images_close(); return args}",
         )
 
         self.tag_filter_ui.set_callbacks()
