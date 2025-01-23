@@ -44,7 +44,7 @@ def test():
 
 if __name__ == "__main__":
     
-    app =  gr.Interface(fn=get_tags_str,inputs=[gr.Image(type="pil"),gr.Slider(0,1,0.5)],outputs=["text"])
+    app =  gr.Interface(fn=get_tags_str,inputs=[gr.Image(source="upload",type="pil"),gr.Slider(0,1,0.5)],outputs=["text"])
     app.launch(
        server_name = "0.0.0.0" ,
        server_port = 8275,
